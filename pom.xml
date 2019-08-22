@@ -5,8 +5,8 @@
 
 	<groupId>ru.ancevt.util</groupId>
 	<artifactId>args</artifactId>
-	<version>0.0.2</version>
-	<packaging>jar</packaging>
+	<version>0.0.3</version>
+	<packaging>jar</packaging> 
 
 	<name>args</name>
 	<url>http://maven.apache.org</url>

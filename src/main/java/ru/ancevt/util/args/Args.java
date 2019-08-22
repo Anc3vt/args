@@ -39,7 +39,7 @@ public class Args {
 
 	private String[] args;
 
-	public Args(String[] args) {
+	private Args(String[] args) {
 		this.args = args;
 	}
 
