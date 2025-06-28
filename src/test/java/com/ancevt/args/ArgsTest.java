@@ -27,6 +27,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class ArgsTest {
 
     @Test
+    void testGetPositionalTyped() {
+        Args args = Args.from("1000 out.txt --mode fast");
+        int n = args.getPositional(0, Integer.class);
+        String filename = args.getPositional(1, String.class, "out_default.txt");
+        assertEquals(1000, n);
+        assertEquals("out.txt", filename);
+    }
+
+    @Test
     void testParseFromString() {
         Args args = Args.from("--host localhost --port 1234 --debug");
 
@@ -49,9 +58,7 @@ class ArgsTest {
     void testAliasesGet() {
         Args args = Args.from("--port 1111 -p 2222");
 
-        // если оба присутствуют — берём первый из списка алиасов
         assertEquals(1111, args.get("--port|-p", Integer.class));
-        // если основного нет, берем алиас
         args = Args.from("-p 3333");
         assertEquals(3333, args.get("--port|-p", Integer.class));
     }
@@ -71,7 +78,6 @@ class ArgsTest {
         assertEquals(8080, args.get("--port", Integer.class, 8080));
         assertEquals("abc", args.get("--host", String.class, "abc"));
 
-        // Алиасы + дефолт
         assertEquals(9090, args.get("--port|-p", Integer.class, 9090));
     }
 
@@ -101,7 +107,6 @@ class ArgsTest {
         Args args = Args.from("file.txt --mode edit another.txt");
         assertEquals("edit", args.get("--mode", String.class));
 
-        // Проверяем позиционные аргументы
         List<String> positionals = args.getPositionals();
         assertEquals(2, positionals.size());
         assertEquals("file.txt", positionals.get(0));

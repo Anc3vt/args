@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ancevt</groupId>
+    <groupId>com.ancevt.util</groupId>
     <artifactId>args</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>Args: argument parser</name>
     <url>https://github.com/Anc3vt/args.git</url>
