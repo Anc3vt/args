@@ -18,6 +18,8 @@
 
 package com.ancevt.util.args;
 
+import com.ancevt.util.args.reflection.CommandArgument;
+import com.ancevt.util.args.reflection.OptionArgument;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -34,6 +36,17 @@ public class ArgsTest {
     enum Mode {
         FAST,
         SLOW
+    }
+
+    static class BoundCommand {
+        @CommandArgument
+        String name;
+
+        @OptionArgument(names = {"-c", "--count"}, required = true)
+        int count;
+
+        @OptionArgument(names = "--flag")
+        boolean flag;
     }
 
     @Test
@@ -208,5 +221,30 @@ public class ArgsTest {
         assertTrue(args.isEmpty());
         assertEquals(0, args.size());
         assertFalse(args.hasNext());
+    }
+
+    @Test
+    public void testConvertCreatesBoundObject() throws Exception {
+        Args args = Args.parse("task --count 7 --flag");
+
+        BoundCommand command = args.convert(BoundCommand.class);
+
+        assertEquals("task", command.name);
+        assertEquals(7, command.count);
+        assertTrue(command.flag);
+    }
+
+    @Test
+    public void testConvertFillsExistingObject() throws Exception {
+        Args args = Args.parse("task -c=3");
+        BoundCommand command = new BoundCommand();
+        command.flag = true;
+
+        BoundCommand result = args.convert(command);
+
+        assertSame(command, result);
+        assertEquals("task", command.name);
+        assertEquals(3, command.count);
+        assertTrue(command.flag);
     }
 }

@@ -18,6 +18,8 @@
 
 package com.ancevt.util.args;
 
+import com.ancevt.util.args.reflection.ArgsBinder;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -482,6 +484,37 @@ public class Args implements Iterable<String> {
      */
     public Throwable getProblem() {
         return problem;
+    }
+
+    /**
+     * Converts this {@code Args} instance to a new object of the given type
+     * using {@link ArgsBinder}.
+     *
+     * @param type target class to instantiate and fill
+     * @param <T>  target type
+     * @return new object filled from this {@code Args} instance
+     * @throws ReflectiveOperationException if the target object cannot be created
+     *                                      or filled
+     * @throws ArgsParseException           if required arguments are missing or
+     *                                      conversion fails
+     */
+    public <T> T convert(Class<T> type) throws ReflectiveOperationException {
+        return ArgsBinder.convert(this, type);
+    }
+
+    /**
+     * Fills an existing object from this {@code Args} instance using
+     * {@link ArgsBinder}.
+     *
+     * @param objectToFill existing object to fill
+     * @param <T>          target type
+     * @return the same filled object instance
+     * @throws IllegalAccessException if a target field cannot be accessed
+     * @throws ArgsParseException     if required arguments are missing or
+     *                                conversion fails
+     */
+    public <T> T convert(T objectToFill) throws IllegalAccessException {
+        return ArgsBinder.convert(this, objectToFill);
     }
 
     /**

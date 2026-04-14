@@ -22,7 +22,7 @@ If the library is available in your Maven repository, add:
 <dependency>
     <groupId>com.ancevt.util</groupId>
     <artifactId>args</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
@@ -296,6 +296,14 @@ public class BindExample {
 }
 ```
 
+The same binding can be called directly from an `Args` instance:
+
+```java
+Args args = Args.parse("api --env production --replicas 3 --dry-run");
+
+DeployCommand command = args.convert(DeployCommand.class);
+```
+
 `ArgsBinder.convert(args, SomeClass.class)` creates a new object through a
 no-argument constructor. The constructor may be private.
 
@@ -308,6 +316,14 @@ command.replicas = 1;
 ArgsBinder.convert(Args.parse("api --env staging"), command);
 
 System.out.println(command.replicas); // 1, because the option was not provided
+```
+
+The instance shortcut works for existing objects too:
+
+```java
+DeployCommand command = new DeployCommand();
+
+Args.parse("api --env staging").convert(command);
 ```
 
 ## Positional Arguments

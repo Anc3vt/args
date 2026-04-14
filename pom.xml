@@ -6,7 +6,7 @@
 
     <groupId>com.ancevt.util</groupId>
     <artifactId>args</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <name>Args</name>
     <description>A small Java library for parsing command-line argument strings and binding arguments to objects through annotations.</description>
